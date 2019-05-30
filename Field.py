@@ -1,4 +1,4 @@
-from random import *
+import random
 from Case import *
 
 
@@ -7,15 +7,15 @@ class Field:
         self.size_x = x
         self.size_y = y
 
-        self.field = [[Case() for j in range(self.size_y)] for i in range(self.size_x)]
+        self.field = [[Case() for _ in range(self.size_y)] for _ in range(self.size_x)]
 
         self.define_mine(nb_mine)
         self.define_number()
 
     def define_mine(self, nb_mine):
         while nb_mine > 0:
-            mine_x = randint(0, self.size_x-1)
-            mine_y = randint(0, self.size_y-1)
+            mine_x = random.randint(0, self.size_x-1)
+            mine_y = random.randint(0, self.size_y-1)
 
             if not self.is_there_mine_there(mine_x, mine_y):
                 self.get_case(mine_x, mine_y).set_mine()
@@ -73,3 +73,10 @@ class Field:
                 for i in (x-1, x, x+1):
                     for j in (y-1, y, y+1):
                         self.open_case(i, j)
+
+    def show_mines(self):
+        for i in range(self.size_x):
+            for j in range(self.size_y):
+                case = self.get_case(i, j)
+                if case is not None and case.has_mine():
+                    case.open()

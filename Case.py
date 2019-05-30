@@ -1,8 +1,10 @@
 class Case:
 
-    def __init__(self, val='0', opened=False):
-        self.value = val
+    def __init__(self, value='0', opened=False, flag=False):
+        self.value = value
         self.opened = opened
+        self.flagged = flag
+        self.exploded = False
 
     def has_mine(self):
         return self.value == 'X'
@@ -13,8 +15,8 @@ class Case:
     def set_mine(self):
         self.value = 'X'
 
-    def set_value(self, val):
-        self.value = val
+    def set_value(self, value):
+        self.value = value
 
     def get_value(self):
         return self.value
@@ -24,3 +26,18 @@ class Case:
 
     def open(self):
         self.opened = True
+
+    def is_flag(self):
+        return self.flagged
+
+    def toggle_flag(self):
+        if self.flagged:
+            self.flagged = False
+        else:
+            self.flagged = True
+
+    def has_explode(self):
+        return self.exploded
+
+    def explode(self):
+        self.exploded = True
