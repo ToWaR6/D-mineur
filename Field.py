@@ -6,6 +6,7 @@ class Field:
     def __init__(self, x, y, nb_mine):
         self.size_x = x
         self.size_y = y
+        self.remain = x*y - nb_mine
 
         self.field = [[Case() for _ in range(self.size_y)] for _ in range(self.size_x)]
 
@@ -58,17 +59,13 @@ class Field:
         return None
 
     def is_win(self):
-        for x in range(self.size_x):
-            for y in range(self.size_y):
-                if not self.get_case(x, y).has_mine():
-                    if not self.get_case(x, y).is_opened():
-                        return False
-        return True
+        return self.remain == 0
 
     def open_case(self, x, y):
         case = self.get_case(x, y)
         if case is not None and not case.is_opened():
             case.open()
+            self.remain -= 1
             if case.is_empty():
                 for i in (x-1, x, x+1):
                     for j in (y-1, y, y+1):
